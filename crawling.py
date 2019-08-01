@@ -9,9 +9,9 @@ from pprint import pprint
 driver = webdriver.Chrome('chromedriver')
 driver.get("http://parking.seoul.go.kr")
 # mongo 디비 연결 설정 및 collection 받기
-client = pymongo.MongoClient("<please input mongodb url>")
-db = client.get_database('seoul_parking')
-collection = db.get_collection('parking_lot')
+client = pymongo.MongoClient("<please input mongodb url>") #몽고디비 URL 입력(필수)
+db = client.get_database('seoul_parking') #데이터베이스 얻기
+collection = db.get_collection('parking_lot') #콜렉션 얻기
 
 data = []
 # cf) 매개변수 district_index 2~26까지 2는 강남구 26 중랑구
@@ -39,6 +39,6 @@ for district_index in range(2,3):
         park_count = soup.select_one('.pop_detail .fl > .stxt').text
         print('이름 : %s, 주소 : %s, 전체주차면 : %s' % (park_name, park_addr, park_count))
         data = {"pname" : park_name, "addr2" : park_addr, "total" : park_count}
-        collection.insert_one(data)
+        collection.insert_one(data) #콜렉션에 데이터 삽입(
 
 print("강남구 처리 시간 : ", time.time()-start_time)
